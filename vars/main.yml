@@ -1,0 +1,12 @@
+---
+create_files:
+  - owner:              "{{ steamcmd_user }}"
+    group:              "{{ steamcmd_user }}"
+    mode:               '0755'
+    state:              'directory'
+    path:               "{{ steamcmd_user_home }}.klei/{{ dst_server_name }}/Cluster_1/"
+symlinks:
+  - owner:              "{{ steamcmd_user }}"
+    group:              "{{ steamcmd_user }}"
+    src:                "{{ steamcmd_user_home }}.klei/{{ dst_server_name }}/server_token.txt"
+    dest:               "{{ steamcmd_user_home }}.klei/{{ dst_server_name }}/Cluster_1/cluster_token.txt"
