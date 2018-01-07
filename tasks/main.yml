@@ -1,14 +1,13 @@
 ---
-- include_vars: "../../../../sensitive/ansible/host_vars/{{ dontstarvetogether_server }}.yml"
 - include: requirements.yml
 - include: packages.yml
 - include: app.yml
   become: yes
   become_user: '{{ steamcmd_user }}'
 - include: server.yml
+  become: yes
 - include: '../../tasks/create_files.yml'
 - include: '../../tasks/symlinks.yml'
-  become: yes
   become_user: '{{ steamcmd_user }}'
 - include: service.yml
   when: dst_server_as_a_service

@@ -1,0 +1,6 @@
+[shard]
+is_master = {{ dst_shard_is_master | lower }}
+{% if dst_shard_id %}
+id = {{ dst_shard_id }}
+{% endif %}
+

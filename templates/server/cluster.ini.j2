@@ -1,0 +1,31 @@
+# https://forums.kleientertainment.com/topic/64552-dedicated-server-settings-guide/
+
+[network]
+cluster_name = {{ dst_server_name }}
+cluster_description = {{ dst_server_description }}
+cluster_password = {{ dst_server_password }}
+cluster_intention = {{ dst_server_intention }}
+autosaver_enabled = {{ dst_enable_autosaver | lower }}
+tick_rate = {{ dst_tick_rate }}
+offline_cluster = {{ dst_offline_server | lower }}
+
+[gameplay]
+max_players = {{ dst_max_players }}
+pvp = {{ dst_pvp | lower }}
+game_mode = {{ dst_game_mode }}
+pause_when_empty = {{ dst_pause_when_empty | lower }}
+vote_enabled = {{ dst_enable_vote_kick | lower }}
+
+[steam]
+
+[misc]
+console_enabled = {{ dst_console_enabled | lower }}
+
+[shard]
+master_port = {{ dst_server_port }}
+shard_enabled = {{ dst_shard_enable | lower }}
+shard_name = {{ dst_shard_name }}
+cluster_key = {{ dst_shard_cluster_key }}
+{% if dst_shard_master_ip %}
+master_ip = {{ dst_shard_master_ip }}
+{% endif %}
