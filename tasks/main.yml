@@ -1,4 +1,5 @@
 ---
+- include_vars: '../../../../sensitive/ansible/host_vars/{{ dontstarvetogether_server }}.yml'
 - include: requirements.yml
 - include: packages.yml
 - include: app.yml
