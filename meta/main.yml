@@ -24,4 +24,5 @@ galaxy_info:
     - caves
     - dedicatedserver
 
-dependencies: []
+dependencies:
+  - role:       steamcmd
