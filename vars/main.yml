@@ -1,4 +1,5 @@
 ---
+gather_facts: True
 create_files:
 - owner: "{{ steamcmd_user }}"
   group: "{{ steamcmd_user }}"
