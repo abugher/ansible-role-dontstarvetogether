@@ -13,7 +13,7 @@
     mode: 0755
 
 - name: install or update app
-  command: '{{ steamcmd_directory }}steamcmd.sh +runscript {{ dst_install_dir }}bin/update'
+  shell: "{{ steamcmd_directory }}steamcmd.sh +runscript {{ dst_install_dir }}bin/update > /tmp/output.stdout 2> /tmp/output.stderr"
   async: 180
   poll: 5
   register: app_update

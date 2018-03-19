@@ -1,12 +1,20 @@
 ---
 
+- name: check for i386 architecture
+  shell: dpkg --print-foreign-architectures | grep '^i386$'
+  when: ansible_os_family == 'Debian'
+  changed_when: false
+  register: arch_check
+
 - name: add i386 architecture onto Debian family
   command: dpkg --add-architecture i386
-  when: ansible_os_family == 'Debian'
+  when: ansible_os_family == 'Debian' and 0 != arch_check.rc
 
 - name: update the apt package index
-  apt: update_cache=yes
+  apt: 
+    update_cache: yes
   when: ansible_pkg_mgr == 'apt'
+  changed_when: false
 
 - name: install the dependencies required to run a Don't Starve Together server
   package: name={{ item }} state=present
