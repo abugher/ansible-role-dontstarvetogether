@@ -10,6 +10,15 @@ create_files:
   mode: '0755'
   state: 'directory'
   path: "{{ steamcmd_user_home }}.klei/{{ dst_server_name }}/Cluster_1/Master"
+initialize_files:
+- dest: '/var/log/update_dontstarvetogether.log'
+  owner: 'steam'
+  group: 'steam'
+  mode: '0644'
+- dest: '/var/log/update_dontstarvetogether.ret'
+  owner: 'steam'
+  group: 'steam'
+  mode: '0644'
 symlinks:
 - owner: "{{ steamcmd_user }}"
   group: "{{ steamcmd_user }}"

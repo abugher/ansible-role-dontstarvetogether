@@ -13,3 +13,22 @@
     name: dst-{{ dst_shard_name }}
     state: started
     enabled: yes
+
+#- name: "capture command to update Don't Starve Together"
+#  shell: "echo {{ steamcmd_directory }}steamcmd.sh +runscript {{ dst_install_dir }}bin/update > /usr/local/bin/update_dontstarvetogether"
+#  args:
+#    creates: '/usr/local/bin/update_dontstarvetogether'
+
+- copy:
+    dest: '/usr/local/bin/update_dontstarvetogether'
+    owner: 'root'
+    group: 'root'
+    mode: '0755'
+    src: 'files/bin/update_dontstarvetogether'
+
+- template:
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
+    dest: '/etc/cron.d/update_dontstarvetogether'
+    src: 'templates/cron.d/update_dontstarvetogether.j2'
