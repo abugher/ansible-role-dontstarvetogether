@@ -1,34 +1,45 @@
 ---
 create_files:
-- owner: "{{ steamcmd_user }}"
-  group: "{{ steamcmd_user }}"
-  mode: '0755'
-  state: 'directory'
-  path: "{{ steamcmd_user_home }}.klei/{{ dst_server_name }}/Cluster_1"
-- owner: "{{ steamcmd_user }}"
-  group: "{{ steamcmd_user }}"
-  mode: '0755'
-  state: 'directory'
-  path: "{{ steamcmd_user_home }}.klei/{{ dst_server_name }}/Cluster_1/Master"
+  - owner: "{{ steamcmd_user }}"
+    group: "{{ steamcmd_user }}"
+    mode: '0755'
+    state: 'directory'
+    path: "{{ steamcmd_user_home }}.klei/{{ dst_server_name }}/Cluster_1"
+  - owner: "{{ steamcmd_user }}"
+    group: "{{ steamcmd_user }}"
+    mode: '0755'
+    state: 'directory'
+    path: "{{ steamcmd_user_home }}.klei/{{ dst_server_name }}/Cluster_1/Master"
 initialize_files:
-- dest: '/var/log/update_dontstarvetogether.log'
-  owner: 'steam'
-  group: 'steam'
-  mode: '0644'
-- dest: '/var/log/update_dontstarvetogether.ret'
-  owner: 'steam'
-  group: 'steam'
-  mode: '0644'
+  - dest: '/var/log/update_dontstarvetogether.log'
+    owner: 'steam'
+    group: 'steam'
+    mode: '0644'
+  - dest: '/var/log/update_dontstarvetogether.ret'
+    owner: 'steam'
+    group: 'steam'
+    mode: '0644'
 symlinks:
-- owner: "{{ steamcmd_user }}"
-  group: "{{ steamcmd_user }}"
-  src: "{{ steamcmd_user_home }}.klei/{{ dst_server_name }}/cluster.ini"
-  dest: "{{ steamcmd_user_home }}.klei/{{ dst_server_name }}/Cluster_1/cluster.ini"
-- owner: "{{ steamcmd_user }}"
-  group: "{{ steamcmd_user }}"
-  src: "{{ steamcmd_user_home }}.klei/{{ dst_server_name }}/cluster_token.txt"
-  dest: "{{ steamcmd_user_home }}.klei/{{ dst_server_name }}/Cluster_1/cluster_token.txt"
-- owner: "{{ steamcmd_user }}"
-  group: "{{ steamcmd_user }}"
-  src: "{{ steamcmd_user_home }}.klei/{{ dst_server_name }}/server.ini"
-  dest: "{{ steamcmd_user_home }}.klei/{{ dst_server_name }}/Cluster_1/Master/server.ini"
+  - owner: "{{ steamcmd_user }}"
+    group: "{{ steamcmd_user }}"
+    src: "{{ steamcmd_user_home }}.klei/{{ dst_server_name }}/cluster.ini"
+    dest: "{{ steamcmd_user_home }}.klei/{{ dst_server_name }}/Cluster_1/cluster.ini"
+  - owner: "{{ steamcmd_user }}"
+    group: "{{ steamcmd_user }}"
+    src: "{{ steamcmd_user_home }}.klei/{{ dst_server_name }}/cluster_token.txt"
+    dest: "{{ steamcmd_user_home }}.klei/{{ dst_server_name }}/Cluster_1/cluster_token.txt"
+  - owner: "{{ steamcmd_user }}"
+    group: "{{ steamcmd_user }}"
+    src: "{{ steamcmd_user_home }}.klei/{{ dst_server_name }}/server.ini"
+    dest: "{{ steamcmd_user_home }}.klei/{{ dst_server_name }}/Cluster_1/Master/server.ini"
+template_files:
+  - src: 'templates/bin/update_dontstarvetogether_cronjob.j2'
+    dest: '/usr/local/bin/update_dontstarvetogether_cronjob'
+    owner: 'root'
+    group: 'root'
+    mode: '0755'
+  - src: 'templates/cron.d/update_dontstarvetogether.j2'
+    dest: '/etc/cron.d/update_dontstarvetogether'
+    owner: 'root'
+    group: 'root'
+    mode: '0755'

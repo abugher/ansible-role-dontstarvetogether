@@ -1,0 +1,7 @@
+#!/bin/bash
+
+service dst-{{ game_name }} stop
+
+sudo -u steam /usr/local/bin/update_dontstarvetogether
+
+service dst-{{ game_name }} start

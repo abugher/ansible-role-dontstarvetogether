@@ -9,6 +9,7 @@
 - include: server.yml
   become: yes
 - include: '../../tasks/create_files.yml'
+- include: '../../tasks/template_files.yml'
 - include: '../../tasks/symlinks.yml'
   become_user: '{{ steamcmd_user }}'
 - include: service.yml
