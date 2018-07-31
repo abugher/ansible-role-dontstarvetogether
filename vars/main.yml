@@ -4,18 +4,18 @@ adjust_files:
     group: "{{ steamcmd_user }}"
     mode: '0755'
     state: 'directory'
-    path: "{{ steamcmd_user_home }}.klei/{{ dst_server_name }}"
+    path: "{{ steamcmd_user_home }}.klei/{{ dst_shard_name }}"
 create_files:
   - owner: "{{ steamcmd_user }}"
     group: "{{ steamcmd_user }}"
     mode: '0755'
     state: 'directory'
-    path: "{{ steamcmd_user_home }}.klei/{{ dst_server_name }}/Cluster_1"
+    path: "{{ steamcmd_user_home }}.klei/{{ dst_shard_name }}/Cluster_1"
   - owner: "{{ steamcmd_user }}"
     group: "{{ steamcmd_user }}"
     mode: '0755'
     state: 'directory'
-    path: "{{ steamcmd_user_home }}.klei/{{ dst_server_name }}/Cluster_1/Master"
+    path: "{{ steamcmd_user_home }}.klei/{{ dst_shard_name }}/Cluster_1/Master"
 initialize_files:
   - dest: '/var/log/update_dontstarvetogether.log'
     owner: 'steam'
@@ -28,16 +28,16 @@ initialize_files:
 symlinks:
   - owner: "root"
     group: "root"
-    src: "{{ steamcmd_user_home }}.klei/{{ dst_server_name }}/cluster.ini"
-    dest: "{{ steamcmd_user_home }}.klei/{{ dst_server_name }}/Cluster_1/cluster.ini"
+    src: "{{ steamcmd_user_home }}.klei/{{ dst_shard_name }}/cluster.ini"
+    dest: "{{ steamcmd_user_home }}.klei/{{ dst_shard_name }}/Cluster_1/cluster.ini"
   - owner: "root"
     group: "root"
-    src: "{{ steamcmd_user_home }}.klei/{{ dst_server_name }}/cluster_token.txt"
-    dest: "{{ steamcmd_user_home }}.klei/{{ dst_server_name }}/Cluster_1/cluster_token.txt"
+    src: "{{ steamcmd_user_home }}.klei/{{ dst_shard_name }}/cluster_token.txt"
+    dest: "{{ steamcmd_user_home }}.klei/{{ dst_shard_name }}/Cluster_1/cluster_token.txt"
   - owner: "root"
     group: "root"
-    src: "{{ steamcmd_user_home }}.klei/{{ dst_server_name }}/server.ini"
-    dest: "{{ steamcmd_user_home }}.klei/{{ dst_server_name }}/Cluster_1/Master/server.ini"
+    src: "{{ steamcmd_user_home }}.klei/{{ dst_shard_name }}/server.ini"
+    dest: "{{ steamcmd_user_home }}.klei/{{ dst_shard_name }}/Cluster_1/Master/server.ini"
 template_files:
   - src: 'templates/bin/update_dontstarvetogether_cronjob.j2'
     dest: '/usr/local/bin/update_dontstarvetogether_cronjob'
