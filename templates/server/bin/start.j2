@@ -41,33 +41,30 @@ running() {
 
 start() {
   if ! running; then
-    echo -n " * Starting $NAME\n"
-    start-stop-daemon \
-      --start \
-      --chuid $USER \
-      --user $USER \
-      --chdir $BINARYPATH \
-      --make-pidfile \
-      --pidfile $PIDFILE \
-      --exec "/usr/bin/screen" \
-      -- \
-      -dmS $SCREENREF \
-      $BINARYPATH/$BINARYNAME $OPTS
+    echo -n " * Starting:  $NAME\n"
+    cd $BINARYPATH
+    sudo -u $USER nohup $BINARYPATH/$BINARYNAME $OPTS > /dev/null 2>&1 &
+    echo $! > $PIDFILE
     if [ -s $PIDFILE ]; then
-      echo " * done"
+      if ps -p $(cat $PIDFILE) >/dev/null 2>&1; then
+        echo " * done"
+      else
+        echo " * failed"
+        rm $PIDFILE
+      fi
     else
       echo " * failed"
       rm $PIDFILE
     fi
   else
-    echo " * The $NAME is already started"
+    echo " * The $NAME is already started."
   fi
 }
 
 
 stop() {
   if running; then
-    echo -n " * Stopping $NAME\n"
+    echo -n " * Stopping:  $NAME\n"
     kill $(cat $PIDFILE)
     while running; do
       echo "   (still running...)"
@@ -76,7 +73,7 @@ stop() {
     rm $PIDFILE
     echo " * done"
   else
-    echo " * The $NAME is already stopped"
+    echo " * The $NAME is already stopped."
     if test -e $PIDFILE; then
       echo " * Removing stale PID file."
       rm $PIDFILE
