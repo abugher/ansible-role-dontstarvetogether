@@ -1,6 +1,7 @@
 ---
 - include_vars: '../../../../sensitive/ansible/host_vars/{{ dontstarvetogether_server }}.yml'
 - include: '../../tasks/initialize_files.yml'
+  become: yes
 - include: requirements.yml
 - include: packages.yml
 - include: app.yml
@@ -8,9 +9,13 @@
   become_user: '{{ steamcmd_user }}'
 - include: server.yml
   become: yes
+- include: '../../tasks/adjust_files.yml'
+  become: yes
 - include: '../../tasks/create_files.yml'
+  become: yes
 - include: '../../tasks/template_files.yml'
+  become: yes
 - include: '../../tasks/symlinks.yml'
-  become_user: '{{ steamcmd_user }}'
+  become: yes
 - include: service.yml
   when: dst_server_as_a_service

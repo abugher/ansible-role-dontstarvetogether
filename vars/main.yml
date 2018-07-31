@@ -1,4 +1,10 @@
 ---
+adjust_files:
+  - owner: "{{ steamcmd_user }}"
+    group: "{{ steamcmd_user }}"
+    mode: '0755'
+    state: 'directory'
+    path: "{{ steamcmd_user_home }}.klei/{{ dst_server_name }}"
 create_files:
   - owner: "{{ steamcmd_user }}"
     group: "{{ steamcmd_user }}"
@@ -20,16 +26,16 @@ initialize_files:
     group: 'steam'
     mode: '0644'
 symlinks:
-  - owner: "{{ steamcmd_user }}"
-    group: "{{ steamcmd_user }}"
+  - owner: "root"
+    group: "root"
     src: "{{ steamcmd_user_home }}.klei/{{ dst_server_name }}/cluster.ini"
     dest: "{{ steamcmd_user_home }}.klei/{{ dst_server_name }}/Cluster_1/cluster.ini"
-  - owner: "{{ steamcmd_user }}"
-    group: "{{ steamcmd_user }}"
+  - owner: "root"
+    group: "root"
     src: "{{ steamcmd_user_home }}.klei/{{ dst_server_name }}/cluster_token.txt"
     dest: "{{ steamcmd_user_home }}.klei/{{ dst_server_name }}/Cluster_1/cluster_token.txt"
-  - owner: "{{ steamcmd_user }}"
-    group: "{{ steamcmd_user }}"
+  - owner: "root"
+    group: "root"
     src: "{{ steamcmd_user_home }}.klei/{{ dst_server_name }}/server.ini"
     dest: "{{ steamcmd_user_home }}.klei/{{ dst_server_name }}/Cluster_1/Master/server.ini"
 template_files:
