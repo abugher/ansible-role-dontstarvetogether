@@ -24,19 +24,35 @@ OPTS="-conf_dir {{ dst_shard_name }}"
 
 cd "$BINARYPATH"
 
+
 running() {
-  if [ -n "`pgrep -f $BINARYNAME`" ]; then
-    return 0
+  if test -e $PIDFILE; then
+    read pid < $PIDFILE
+    if ! ps -l $pid >/dev/null 2>&1; then
+      return 2
+    fi
   else
     return 1
   fi
+
+  return 0
 }
+
 
 start() {
   if ! running; then
     echo -n " * Starting $NAME\n"
-    start-stop-daemon --start --chuid $USER --user $USER --chdir $BINARYPATH --exec "/usr/bin/screen" -- -dmS $SCREENREF $BINARYPATH/$BINARYNAME $OPTS
-    pgrep -f $BINARYNAME > $PIDFILE
+    start-stop-daemon \
+      --start \
+      --chuid $USER \
+      --user $USER \
+      --chdir $BINARYPATH \
+      --make-pidfile \
+      --pidfile $PIDFILE \
+      --exec "/usr/bin/screen" \
+      -- \
+      -dmS $SCREENREF \
+      $BINARYPATH/$BINARYNAME $OPTS
     if [ -s $PIDFILE ]; then
       echo " * done"
     else
@@ -48,19 +64,47 @@ start() {
   fi
 }
 
+
 stop() {
   if running; then
     echo -n " * Stopping $NAME\n"
-    kill `cat $PIDFILE`
+    kill $(cat $PIDFILE)
     while running; do
+      echo "   (still running...)"
       sleep 1
     done
     rm $PIDFILE
     echo " * done"
   else
     echo " * The $NAME is already stopped"
+    if test -e $PIDFILE; then
+      echo " * Removing stale PID file."
+      rm $PIDFILE
+    fi
   fi
 }
+
+
+status() {
+  running
+  case $? in
+    0)
+      echo " * The $NAME is started, with PID:  $(cat $PIDFILE)"
+      ;;
+    1)
+      echo " * The $NAME is stopped."
+      ;;
+    2)
+      echo " * The $NAME is stopped, but still claims PID:  $(cat $PIDFILE)"
+      return 1
+      ;;
+    *)
+      echo " * Internal error."
+      return 2
+      ;;
+  esac
+}
+
 
 case "$1" in
   start)
@@ -70,19 +114,14 @@ case "$1" in
     stop
     ;;
   restart)
-  stop
+    stop
     start
     ;;
   status)
-    if running; then
-      echo " * The $NAME is started"
-    else
-      echo " * The $NAME is stopped"
-    fi
+    status
     ;;
   *)
     echo "Usage: $0 (start|stop|restart|status)"
-  exit 1
+    exit 1
+    ;;
 esac
-
-exit 0
