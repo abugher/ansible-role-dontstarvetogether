@@ -43,7 +43,7 @@ start() {
   if ! running; then
     echo -n " * Starting:  $NAME\n"
     cd $BINARYPATH
-    sudo -u $USER nohup $BINARYPATH/$BINARYNAME $OPTS > /dev/null 2>&1 &
+    sudo -u $USER nohup $BINARYPATH/$BINARYNAME $OPTS > /var/log/dst-{{ dst_shard_name}}.log 2>&1 &
     echo $! > $PIDFILE
     if [ -s $PIDFILE ]; then
       if ps -p $(cat $PIDFILE) >/dev/null 2>&1; then
