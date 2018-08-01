@@ -20,7 +20,8 @@ dst_world_preset: SURVIVAL_TOGETHER
 dst_server_as_a_service: true
 dst_server_name: "default world name"
 dst_server_description: Once uppon a time in a quite hostile world.
-dst_server_port: 10999
+dst_master_server_port: 10999
+dst_server_port: '{{ dst_master_server_port }}'
 dst_server_password: password
 dst_server_save_slot: ~  # which save slot should the dedicated server load
 dst_server_intention: cooperative

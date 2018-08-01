@@ -22,10 +22,10 @@ vote_enabled = {{ dst_enable_vote_kick | lower }}
 console_enabled = {{ dst_console_enabled | lower }}
 
 [shard]
-master_port = {{ dst_server_port }}
+master_port = {{ dst_master_server_port }}
 shard_enabled = {{ dst_shard_enable | lower }}
-shard_name = {{ dst_shard_name }}
 cluster_key = {{ dst_shard_cluster_key }}
 {% if dst_shard_master_ip %}
 master_ip = {{ dst_shard_master_ip }}
+bind_ip = {{ dst_shard_master_ip }}
 {% endif %}
