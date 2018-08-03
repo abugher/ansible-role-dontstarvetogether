@@ -25,6 +25,17 @@ initialize_files:
     owner: 'steam'
     group: 'steam'
     mode: '0644'
+template_files:
+  - src: 'templates/bin/update_dontstarvetogether_cronjob.j2'
+    dest: '/usr/local/bin/update_dontstarvetogether_cronjob'
+    owner: 'root'
+    group: 'root'
+    mode: '0755'
+  - src: 'templates/cron.d/update_dontstarvetogether.j2'
+    dest: '/etc/cron.d/update_dontstarvetogether'
+    owner: 'root'
+    group: 'root'
+    mode: '0755'
 symlinks:
   - owner: "root"
     group: "root"
@@ -38,14 +49,7 @@ symlinks:
     group: "root"
     src: "{{ steamcmd_user_home }}.klei/{{ dst_shard_name }}/server.ini"
     dest: "{{ steamcmd_user_home }}.klei/{{ dst_shard_name }}/Cluster_1/Master/server.ini"
-template_files:
-  - src: 'templates/bin/update_dontstarvetogether_cronjob.j2'
-    dest: '/usr/local/bin/update_dontstarvetogether_cronjob'
-    owner: 'root'
-    group: 'root'
-    mode: '0755'
-  - src: 'templates/cron.d/update_dontstarvetogether.j2'
-    dest: '/etc/cron.d/update_dontstarvetogether'
-    owner: 'root'
-    group: 'root'
-    mode: '0755'
+  - owner: "root"
+    group: "root"
+    src: "{{ steamcmd_user_home }}.klei/{{ dst_shard_name }}/worldgenoverride.lua"
+    dest: "{{ steamcmd_user_home }}.klei/{{ dst_shard_name }}/Cluster_1/Master/worldgenoverride.lua"
