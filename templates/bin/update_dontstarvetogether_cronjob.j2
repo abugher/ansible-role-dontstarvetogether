@@ -1,7 +1,11 @@
 #!/bin/bash
 
-service dst-{{ game_name }} stop
+for service in /etc/init.d/dst-*; do
+  $service stop
+done
 
 sudo -u steam /usr/local/bin/update_dontstarvetogether
 
-service dst-{{ game_name }} start
+for service in /etc/init.d/dst-*; do
+  $service start
+done
