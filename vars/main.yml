@@ -4,6 +4,11 @@ adjust_files:
     group: "{{ steamcmd_user }}"
     mode: '0755'
     state: 'directory'
+    path: "{{ steamcmd_user_home }}.klei"
+  - owner: "{{ steamcmd_user }}"
+    group: "{{ steamcmd_user }}"
+    mode: '0755'
+    state: 'directory'
     path: "{{ steamcmd_user_home }}.klei/{{ dst_shard_name }}"
 create_files:
   - owner: "{{ steamcmd_user }}"
