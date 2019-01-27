@@ -4,6 +4,7 @@
   shell: dpkg --print-foreign-architectures | grep '^i386$'
   when: ansible_os_family == 'Debian'
   changed_when: false
+  failed_when:  false
   register: arch_check
 
 - name: add i386 architecture onto Debian family
