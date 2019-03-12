@@ -1,4 +1,0 @@
-#!/bin/bash
-
-/home/steam/cmd/steamcmd.sh +runscript /home/steam/apps/dontstarvetogether/bin/update > /var/log/update_dontstarvetogether.log 2>&1
-echo $? > /var/log/update_dontstarvetogether.ret

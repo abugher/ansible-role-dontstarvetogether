@@ -19,13 +19,6 @@
 #  args:
 #    creates: '/usr/local/bin/update_dontstarvetogether'
 
-- copy:
-    dest: '/usr/local/bin/update_dontstarvetogether'
-    owner: 'root'
-    group: 'root'
-    mode: '0755'
-    src: 'files/bin/update_dontstarvetogether'
-
 - template:
     owner: 'root'
     group: 'root'

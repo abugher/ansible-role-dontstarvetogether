@@ -1,11 +1,32 @@
 #!/bin/bash
 
-for service in /etc/init.d/dst-*; do
-  $service stop
-done
 
-sudo -u steam /usr/local/bin/update_dontstarvetogether
+main() {
+  stop_services
+  update
+  start_services
+}
 
-for service in /etc/init.d/dst-*; do
-  $service start
-done
+
+update() {
+  sudo -u steam sh -c '/home/steam/cmd/steamcmd.sh +runscript /home/steam/apps/dontstarvetogether/bin/update > /var/log/update_dontstarvetogether.log 2>&1'
+  sudo -u steam sh -c "echo $? > /var/log/update_dontstarvetogether.ret"
+  /home/steam/cmd/steamcmd.sh +runscript /home/steam/apps/dontstarvetogether/bin/update 
+}
+
+
+stop_services() {
+  for service in /etc/init.d/dst-*; do
+    $service stop
+  done
+}
+
+
+start_services() {
+  for service in /etc/init.d/dst-*; do
+    $service start
+  done
+}
+
+
+main
