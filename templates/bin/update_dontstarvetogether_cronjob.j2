@@ -17,15 +17,33 @@ update() {
 
 stop_services() {
   for service in /etc/init.d/dst-*; do
-    $service stop
+    $service stop || fail "Failed to stop service:  ${service}"
   done
 }
 
 
 start_services() {
+  failed_services=()
   for service in /etc/init.d/dst-*; do
-    $service start
+    if ! $service start; then
+      warn "Failed to start service: ${service}"
+      failed_services+=("${service}")
+    fi
+    if ! test 0 = "${#failed_services[@]}"; then
+      fail "Failed to start services:  ${failed_services[@]}"
+    fi
   done
+}
+
+
+fail() {
+  echo -- "ERROR:  ${@}" >&2
+  exit 1
+}
+
+
+warn() {
+  echo -- "WARNING:  ${@}" >&2
 }
 
 
