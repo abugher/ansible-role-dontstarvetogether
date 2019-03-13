@@ -30,14 +30,9 @@ initialize_files:
     owner: 'steam'
     group: 'steam'
     mode: '0644'
-template_files:
-  - src: 'templates/bin/update_dontstarvetogether_cronjob.j2'
+install_files:
+  - src: 'files/bin/update_dontstarvetogether_cronjob'
     dest: '/usr/local/bin/update_dontstarvetogether_cronjob'
-    owner: 'root'
-    group: 'root'
-    mode: '0755'
-  - src: 'templates/cron.d/update_dontstarvetogether.j2'
-    dest: '/etc/cron.d/update_dontstarvetogether'
     owner: 'root'
     group: 'root'
     mode: '0755'
