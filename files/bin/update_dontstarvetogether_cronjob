@@ -2,9 +2,11 @@
 
 
 main() {
-  stop_services
-  update
-  start_services
+  if servers_are_paused; then
+    stop_services
+    update
+    start_services
+  fi
 }
 
 
@@ -44,6 +46,25 @@ fail() {
 
 warn() {
   echo -- "WARNING:  ${@}" >&2
+}
+
+
+server_is_paused() {
+  log=$1
+
+  grep pause $log \
+  | tail -n 1 \
+  | grep -q 'Sim paused'
+}
+
+
+servers_are_paused() {
+  for log in /var/log/dst-*; do
+    if ! server_is_paused $log; then
+      warn "Server not paused -- log file:  $log"
+      return 1
+    fi
+  done
 }
 
 
