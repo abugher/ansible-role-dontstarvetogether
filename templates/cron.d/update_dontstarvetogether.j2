@@ -1,4 +1,4 @@
 # m     h       dom     mon     dow     user    command
-{{ hostvars[inventory_hostname].update_dontstarvetogether_minute }}      {{ hostvars[inventory_hostname].update_dontstarvetogether_hour }}      *       *       *       root    /usr/local/bin/update_dontstarvetogether_cronjob
+{{ hostvars[inventory_hostname].update_dontstarvetogether_minute }}      *      *       *       *       root    /usr/local/bin/update_dontstarvetogether_cronjob
 
 
