@@ -21,15 +21,16 @@ create_files:
     mode: '0755'
     state: 'directory'
     path: "{{ steamcmd_user_home }}.klei/{{ dst_shard_name }}/Cluster_1/Master"
-initialize_files:
-  - dest: '/var/log/update_dontstarvetogether.log'
-    owner: 'steam'
+  - owner: 'steam'
     group: 'steam'
     mode: '0644'
-  - dest: '/var/log/update_dontstarvetogether.ret'
-    owner: 'steam'
+    state: 'touch'
+    path: '/var/log/update_dontstarvetogether.log'
+  - owner: 'steam'
     group: 'steam'
     mode: '0644'
+    state: 'touch'
+    path: '/var/log/update_dontstarvetogether.ret'
 install_files:
   - src: 'files/bin/update_dontstarvetogether_cronjob'
     dest: '/usr/local/bin/update_dontstarvetogether_cronjob'

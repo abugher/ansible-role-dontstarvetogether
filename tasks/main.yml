@@ -1,7 +1,5 @@
 ---
 - include_vars: '../../../sensitive_ansible/inventory/host_vars/{{ dontstarvetogether_server }}.yml'
-- include: '../../tasks/initialize_files.yml'
-  become: yes
 - include: requirements.yml
 - include: packages.yml
 - include: app.yml
