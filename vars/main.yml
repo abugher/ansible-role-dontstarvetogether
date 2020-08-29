@@ -1,56 +1,116 @@
 ---
-adjust_files:
-  - owner: "{{ steamcmd_user }}"
-    group: "{{ steamcmd_user }}"
-    mode: '0755'
-    state: 'directory'
-    path: "{{ steamcmd_user_home }}.klei"
-  - owner: "{{ steamcmd_user }}"
-    group: "{{ steamcmd_user }}"
-    mode: '0755'
-    state: 'directory'
-    path: "{{ steamcmd_user_home }}.klei/{{ dst_shard_name }}"
+shell_commands_ignore_result:
+  - command:            dpkg --print-foreign-architectures | grep -q '^i386$' || dpkg --add-architecture i386
+    user:               'root'
+    chdir:              '/'
+    creates:            '/creates/nothing/always/run'
+install_packages:
+  - 'lib32gcc1'
+  - 'lib32stdc++6'
+  - 'libcurl4-gnutls-dev:i386'
+  - 'screen'
 create_files:
-  - owner: "{{ steamcmd_user }}"
-    group: "{{ steamcmd_user }}"
-    mode: '0755'
-    state: 'directory'
-    path: "{{ steamcmd_user_home }}.klei/{{ dst_shard_name }}/Cluster_1"
-  - owner: "{{ steamcmd_user }}"
-    group: "{{ steamcmd_user }}"
-    mode: '0755'
-    state: 'directory'
-    path: "{{ steamcmd_user_home }}.klei/{{ dst_shard_name }}/Cluster_1/Master"
-  - owner: 'steam'
-    group: 'steam'
-    mode: '0644'
-    state: 'touch'
-    path: '/var/log/update_dontstarvetogether.log'
-  - owner: 'steam'
-    group: 'steam'
-    mode: '0644'
-    state: 'touch'
-    path: '/var/log/update_dontstarvetogether.ret'
+  - owner:              "{{ steamcmd_user }}"
+    group:              "{{ steamcmd_user }}"
+    mode:               '0755'
+    state:              'directory'
+    path:               "{{ steamcmd_user_home }}.klei"
+  - owner:              "{{ steamcmd_user }}"
+    group:              "{{ steamcmd_user }}"
+    mode:               '0755'
+    state:              'directory'
+    path:               "{{ steamcmd_user_home }}.klei/{{ dst_shard_name }}"
+  - owner:              "{{ steamcmd_user }}"
+    group:              "{{ steamcmd_user }}"
+    mode:               '0755'
+    state:              'directory'
+    path:               "{{ steamcmd_user_home }}.klei/{{ dst_shard_name }}/Cluster_1"
+  - owner:              "{{ steamcmd_user }}"
+    group:              "{{ steamcmd_user }}"
+    mode:               '0755'
+    state:              'directory'
+    path:               "{{ steamcmd_user_home }}.klei/{{ dst_shard_name }}/Cluster_1/Master"
+  - owner:              '{{ steamcmd_user }}'
+    group:              '{{ steamcmd_user }}'
+    mode:               '0644'
+    state:              'touch'
+    path:               '/var/log/update_dontstarvetogether.log'
+  - owner:              '{{ steamcmd_user }}'
+    group:              '{{ steamcmd_user }}'
+    mode:               '0644'
+    state:              'touch'
+    path:               '/var/log/update_dontstarvetogether.ret'
+  - owner:              '{{ steamcmd_user }}'
+    group:              '{{ steamcmd_user }}'
+    mode:               '0755'
+    path:               '{{ steamcmd_user_home }}.klei/{{ dst_shard_name }}/'
+    state:              'directory'
+  - owner:              '{{ steamcmd_user }}'
+    group:              '{{ steamcmd_user }}'
+    mode:               '0755'
+    path:               '{{ dst_install_dir }}/bin'
+    state:              'directory'
+template_files:
+  - owner:              '{{ steamcmd_user }}'
+    group:              '{{ steamcmd_user }}'
+    mode:               '0640'
+    src:                'templates/server/cluster.ini.j2'
+    dest:               '{{ steamcmd_user_home }}.klei/{{ dst_shard_name }}/cluster.ini'
+  - owner:              '{{ steamcmd_user }}'
+    group:              '{{ steamcmd_user }}'
+    mode:               '0640'
+    src:                'templates/server/server.ini.j2'
+    dest:               '{{ steamcmd_user_home }}.klei/{{ dst_shard_name }}/server.ini'
+  - owner:              '{{ steamcmd_user }}'
+    group:              '{{ steamcmd_user }}'
+    mode:               '0640'
+    src:                'templates/server/cluster_token.txt.j2'
+    dest:               '{{ steamcmd_user_home }}.klei/{{ dst_shard_name }}/cluster_token.txt'
+  - owner:              '{{ steamcmd_user }}'
+    group:              '{{ steamcmd_user }}'
+    mode:               '0640'
+    src:                'templates/server/worldgenoverride.lua.j2'
+    dest:               '{{ steamcmd_user_home }}.klei/{{ dst_shard_name }}/worldgenoverride.lua'
+  - owner:              'root'
+    group:              'root'
+    mode:               '0644'
+    src:                'templates/cron.d/update_dontstarvetogether.j2'
+    dest:               '/etc/cron.d/update_dontstarvetogether'
+  - owner:              '{{ steamcmd_user }}'
+    group:              '{{ steamcmd_user }}'
+    mode:               '0755'
+    src:                'templates/update.j2'
+    dest:               '{{ dst_install_dir }}bin/update'
 install_files:
-  - src: 'files/bin/update_dontstarvetogether_cronjob'
-    dest: '/usr/local/bin/update_dontstarvetogether_cronjob'
-    owner: 'root'
-    group: 'root'
-    mode: '0755'
+  - src:                'files/bin/update_dontstarvetogether_cronjob'
+    dest:               '/usr/local/bin/update_dontstarvetogether_cronjob'
+    owner:              'root'
+    group:              'root'
+    mode:               '0755'
 symlinks:
-  - owner: "root"
-    group: "root"
-    src: "{{ steamcmd_user_home }}.klei/{{ dst_shard_name }}/cluster.ini"
-    dest: "{{ steamcmd_user_home }}.klei/{{ dst_shard_name }}/Cluster_1/cluster.ini"
-  - owner: "root"
-    group: "root"
-    src: "{{ steamcmd_user_home }}.klei/{{ dst_shard_name }}/cluster_token.txt"
-    dest: "{{ steamcmd_user_home }}.klei/{{ dst_shard_name }}/Cluster_1/cluster_token.txt"
-  - owner: "root"
-    group: "root"
-    src: "{{ steamcmd_user_home }}.klei/{{ dst_shard_name }}/server.ini"
-    dest: "{{ steamcmd_user_home }}.klei/{{ dst_shard_name }}/Cluster_1/Master/server.ini"
-  - owner: "root"
-    group: "root"
-    src: "{{ steamcmd_user_home }}.klei/{{ dst_shard_name }}/worldgenoverride.lua"
-    dest: "{{ steamcmd_user_home }}.klei/{{ dst_shard_name }}/Cluster_1/Master/worldgenoverride.lua"
+  - owner:              "root"
+    group:              "root"
+    src:                "{{ steamcmd_user_home }}.klei/{{ dst_shard_name }}/cluster.ini"
+    dest:               "{{ steamcmd_user_home }}.klei/{{ dst_shard_name }}/Cluster_1/cluster.ini"
+  - owner:              "root"
+    group:              "root"
+    src:                "{{ steamcmd_user_home }}.klei/{{ dst_shard_name }}/cluster_token.txt"
+    dest:               "{{ steamcmd_user_home }}.klei/{{ dst_shard_name }}/Cluster_1/cluster_token.txt"
+  - owner:              "root"
+    group:              "root"
+    src:                "{{ steamcmd_user_home }}.klei/{{ dst_shard_name }}/server.ini"
+    dest:               "{{ steamcmd_user_home }}.klei/{{ dst_shard_name }}/Cluster_1/Master/server.ini"
+  - owner:              "root"
+    group:              "root"
+    src:                "{{ steamcmd_user_home }}.klei/{{ dst_shard_name }}/worldgenoverride.lua"
+    dest:               "{{ steamcmd_user_home }}.klei/{{ dst_shard_name }}/Cluster_1/Master/worldgenoverride.lua"
+commands:
+  - command:            '{{ steamcmd_directory }}steamcmd.sh +runscript {{ dst_install_dir }}bin/update'
+    user:               '{{ steamcmd_user }}'
+    chdir:              '/'
+    creates:            '/creates/nothing/always/run'
+enable_services:
+  - 'dst-{{ dst_shard_name }}'
+start_services:         '{{ enable_services }}'
+restart_services:       '{{ enable_services }}'
+

@@ -1,19 +1,16 @@
 ---
-- include_vars: '../../../sensitive_ansible/inventory/host_vars/{{ dontstarvetogether_server }}.yml'
-- include: requirements.yml
-- include: packages.yml
-- include: app.yml
-  become: yes
-  become_user: '{{ steamcmd_user }}'
-- include: server.yml
-  become: yes
-- include: '../../tasks/adjust_files.yml'
-  become: yes
-- include: '../../tasks/create_files.yml'
-  become: yes
-- include: '../../tasks/install_files.yml'
-  become: yes
-- include: '../../tasks/symlinks.yml'
-  become: yes
-- include: service.yml
-  when: dst_server_as_a_service
+- include_vars:                 '../../../sensitive_ansible/inventory/host_vars/{{ dontstarvetogether_server }}.yml'
+- include:                      '../../tasks/shell_commands_ignore_result.yml'
+- include:                      '../../tasks/install_packages.yml'
+- include:                      '../../tasks/create_files.yml'
+- include:                      '../../tasks/template_files.yml'
+- include:                      '../../tasks/install_files.yml'
+- include:                      '../../tasks/symlinks.yml'
+- include:                      '../../tasks/commands.yml'
+- include:                      '../../tasks/enable_services.yml'
+- include:                      '../../tasks/start_services.yml'
+- include:                      '../../tasks/restart_services.yml'
+  when:                         create_files_result.changed
+                                or template_files_result.changed
+                                or install_files_result.changed
+                                or symlinks_result.changed
