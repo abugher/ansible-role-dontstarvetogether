@@ -52,9 +52,28 @@ warn() {
 server_is_paused() {
   log=$1
 
-  grep pause $log \
-  | tail -n 1 \
-  | grep -q 'Sim paused'
+  last_pause_line="$(
+    grep pause $log \
+    | tail -n 1
+  )"
+  case "${last_pause_line}" in
+    'Sim paused')
+      # The server is up, but no one is playing.
+      return 0
+      ;;
+    '')
+      # The server is not up.
+      return 0
+      ;;
+    'Sim unpaused')
+      # The server is up and people are playing.
+      return 1
+      ;;
+    *)
+      # Unknown state.
+      return 2
+      ;;
+  esac
 }
 
 
