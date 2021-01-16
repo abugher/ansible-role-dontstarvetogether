@@ -54,7 +54,8 @@ server_is_paused() {
 
   last_pause_line="$(
     grep pause $log \
-    | tail -n 1
+      | tail -n 1 \
+      | sed -E 's/[][0-9:]+ //'
   )"
   case "${last_pause_line}" in
     'Sim paused')
