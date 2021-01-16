@@ -11,7 +11,7 @@ main() {
 
 
 update() {
-  sudo -u steam sh -c '/home/steam/cmd/steamcmd.sh +runscript /home/steam/apps/dontstarvetogether/bin/update > /var/log/update_dontstarvetogether.log 2>&1'
+  sudo -u steam sh -c '/home/steam/cmd/steamcmd.sh +runscript /usr/local/bin/update_dontstarvetogether_steam_script > /var/log/update_dontstarvetogether.log 2>&1'
   sudo -u steam sh -c "echo $? > /var/log/update_dontstarvetogether.ret"
   /home/steam/cmd/steamcmd.sh +runscript /home/steam/apps/dontstarvetogether/bin/update 
 }

@@ -78,9 +78,9 @@ template_files:
     dest:               '/etc/cron.d/update_dontstarvetogether'
   - owner:              '{{ steamcmd_user }}'
     group:              '{{ steamcmd_user }}'
-    mode:               '0755'
+    mode:               '0750'
     src:                'templates/update.j2'
-    dest:               '{{ dst_install_dir }}bin/update'
+    dest:               '/usr/local/bin/update_dontstarvetogether_steam_script'
 install_files:
   - src:                'files/bin/update_dontstarvetogether_cronjob'
     dest:               '/usr/local/bin/update_dontstarvetogether_cronjob'
@@ -105,7 +105,7 @@ symlinks:
     src:                "{{ steamcmd_user_home }}.klei/{{ dst_shard_name }}/worldgenoverride.lua"
     dest:               "{{ steamcmd_user_home }}.klei/{{ dst_shard_name }}/Cluster_1/Master/worldgenoverride.lua"
 commands:
-  - command:            '{{ steamcmd_directory }}steamcmd.sh +runscript {{ dst_install_dir }}bin/update'
+  - command:            '{{ steamcmd_directory }}steamcmd.sh +runscript /usr/local/bin/update_dontstarvetogether_steam_script'
     user:               '{{ steamcmd_user }}'
     chdir:              '/'
     creates:            '/creates/nothing/always/run'
