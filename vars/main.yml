@@ -112,3 +112,4 @@ enable_services:
 start_services:         '{{ enable_services }}'
 restart_services:       '{{ enable_services }}'
 
+  - steamcmd
