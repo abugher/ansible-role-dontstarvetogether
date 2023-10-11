@@ -1,4 +1,6 @@
 ---
+dependencies:
+  - 'steamcmd'
 shell_commands_ignore_result:
   - command:            dpkg --print-foreign-architectures | grep -q '^i386$' || dpkg --add-architecture i386
     user:               'root'
@@ -33,6 +35,11 @@ create_files:
     mode:               '0644'
     state:              'touch'
     path:               '/var/log/update_dontstarvetogether.log'
+  - owner:              '{{ steamcmd_user }}'
+    group:              '{{ steamcmd_user }}'
+    mode:               '0644'
+    state:              'touch'
+    path:               '/var/log/update_dontstarvetogether.failure.log'
   - owner:              '{{ steamcmd_user }}'
     group:              '{{ steamcmd_user }}'
     mode:               '0644'
@@ -74,11 +81,16 @@ template_files:
     mode:               '0644'
     src:                'templates/cron.d/update_dontstarvetogether.j2'
     dest:               '/etc/cron.d/update_dontstarvetogether'
-  - owner:              '{{ steamcmd_user }}'
+  - owner:              'root'
     group:              '{{ steamcmd_user }}'
-    mode:               '0750'
+    mode:               '0755'
     src:                'templates/update.j2'
     dest:               '/usr/local/bin/update_dontstarvetogether_steam_script'
+  - owner:              'root'
+    group:              '{{ steamcmd_user }}'
+    mode:               '0755'
+    src:                'templates/init.d/dst.j2'
+    dest:               '/etc/init.d/dst-{{ dst_shard_name }}'
 install_files:
   - src:                'files/bin/update_dontstarvetogether_cronjob'
     dest:               '/usr/local/bin/update_dontstarvetogether_cronjob'
@@ -111,5 +123,3 @@ enable_services:
   - 'dst-{{ dst_shard_name }}'
 start_services:         '{{ enable_services }}'
 restart_services:       '{{ enable_services }}'
-
-  - steamcmd

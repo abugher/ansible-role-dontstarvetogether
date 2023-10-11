@@ -1,6 +1,9 @@
 #!/bin/bash
 
 
+max_attempts=3
+
+
 main() {
   if servers_are_paused; then
     stop_services
@@ -11,8 +14,16 @@ main() {
 
 
 update() {
-  sudo -u steam sh -c '/home/steam/cmd/steamcmd.sh +runscript /usr/local/bin/update_dontstarvetogether_steam_script > /var/log/update_dontstarvetogether.log 2>&1'
-  sudo -u steam sh -c "echo $? > /var/log/update_dontstarvetogether.ret"
+  for i in $(seq 0 "${max_attempts}"); do
+    sudo -u steam sh -c '/home/steam/cmd/steamcmd.sh +runscript /usr/local/bin/update_dontstarvetogether_steam_script > /var/log/update_dontstarvetogether.log 2>&1'
+    ret="${?}"
+    if test 0 = "${ret}"; then 
+      break
+    else
+      sudo -u steam cp /var/log/update_dontstarvetogether.log /var/log/update_dontstarvetogether.failure.log
+    fi
+  done
+  sudo -u steam sh -c "echo ${ret} > /var/log/update_dontstarvetogether.ret"
 }
 
 
