@@ -1,6 +1,4 @@
 ---
-dependencies:
-  - 'steamcmd'
 shell_commands_ignore_result:
   - command:            dpkg --print-foreign-architectures | grep -q '^i386$' || dpkg --add-architecture i386
     user:               'root'
