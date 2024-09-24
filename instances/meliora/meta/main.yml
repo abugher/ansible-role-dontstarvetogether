@@ -7,7 +7,6 @@
 # > the same LAN to see it in their server listing.
 dependencies:
   - role:                       dontstarvetogether
-    when:                       skipdeps is not defined       
     dst_master_port:            11000
     dst_server_port:            11001
     dst_server_name:            'Meliora'
@@ -19,8 +18,9 @@ dependencies:
     dst_shard_id:               1
     dst_world_preset:           'SURVIVE_TOGETHER'
     dst_shard_cluster_key:      "{{ dst_shard_cluster_key_meliora }}"
+    tags:
+      - 'dependency'
   - role:                       dontstarvetogether
-    when:                       skipdeps is not defined       
     dst_master_port:            11000
     dst_server_port:            11002
     dst_server_name:            'Meliora'
@@ -30,3 +30,5 @@ dependencies:
     dst_shard_id:               2
     dst_world_preset:           'DST_CAVE'
     dst_shard_cluster_key:      "{{ dst_shard_cluster_key_meliora }}"
+    tags:
+      - 'dependency'
